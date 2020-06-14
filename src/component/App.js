@@ -3,6 +3,7 @@ import Nav from "./nav/Nav";
 import Column from "./column/Column";
 import FormAddCard from "./FormAddCard";
 import FetchData from "./../service/FetchData";
+import "./App.css"
 
 class App extends Component {
   constructor(props) {
@@ -13,7 +14,8 @@ class App extends Component {
         {
           id: 1,
           title: "A apprendre",
-          cards: [],
+          cards: []
+          
         },
         {
           id: 2,
@@ -69,6 +71,7 @@ class App extends Component {
       question: question,
       answer: answer,
     });
+    
     copyState.indexShowFormAddCard = -1;
 
     //Modification eventuelle du state
@@ -113,7 +116,10 @@ class App extends Component {
     //Récuperation des carte
     this.fetchData.getCards(termId, this.failGetcards, this.successGetcards);
   };
-
+  /**
+   * 
+   * @param {*} terms 
+   */
   successGetTerms = (terms) => {
     console.log("Dans successGetterms : ", terms);
     const copyState = { ...this.state };
@@ -121,15 +127,45 @@ class App extends Component {
 
     this.setState(copyState);
   };
-
+  /**
+   * 
+   * @param {*} error 
+   */
   failGetTerms(error) {
     console.log("Dans failGetTerms erreur : ", error);
   }
+  /**
+   * 
+   * @param {*} cards 
+   */
+  successGetcards = (columns) => {
+    console.log("Dans successGetcards : ", columns, "this : ", this.state);
+    console.log("l'objet est égale :", this.state, columns)
+    const copyState = { ...this.state };
 
-  successGetcards = (cards) => {
-    console.log("Dans successGetcards : ", cards);
+    
+    copyState.columns = columns;
+
+    function arrayMove(arr, old_index, new_index) {
+      if (new_index >= arr.length) {
+          let k = new_index - arr.length + 1;
+          while (k--) {
+              arr.push(undefined);
+          }
+      };
+      arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);   
   };
 
+  arrayMove(copyState.columns, 3, 1);
+
+    console.log("old state :", this.state)
+    this.setState(copyState);
+    console.log("new state : ", this.state)
+  };
+  /**
+   * 
+   * @param {*} error 
+   */
   failGetcards(error) {
     console.log("Dans failGetcards erreur : ", error);
   }
@@ -141,11 +177,17 @@ class App extends Component {
     console.log("Dans successGetToken : ", token);
     this.fetchData.getTerms(this.failGetTerms, this.successGetTerms);
   };
-
+  /**
+   * 
+   * @param {*} error 
+   */
   failGetToken(error) {
     console.log("Dans failGetToken erreur : ", error);
   }
 
+  /**
+   * 
+   */
   render() {
     return (
       <div>
@@ -174,6 +216,7 @@ class App extends Component {
               //Appel de Column c'est ici que l'on envoie les argument
 
               <Column
+
                 key={column.id}
                 column={column}
                 onClickAddCard={() => {
@@ -183,13 +226,17 @@ class App extends Component {
             ))}
           </section>
         </main>
-        <footer>footer</footer>
+        <footer className={" bg-secondary p-3 text-center text-light"} >
+           <p>Copyright Yvan douenel</p>
+        </footer>
       </div>
     );
   }
   componentDidMount() {
+    //Premier fetch
     //Récuperation des token
     this.fetchData.getToken((this.failGetToken, this.successGetToken));
+   
   }
 }
 

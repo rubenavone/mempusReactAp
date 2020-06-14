@@ -1,0 +1,28 @@
+@keyframes scale {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(1.02);
+    }
+}
+
+article:hover{
+    animation-duration: 0.5s;
+    animation-name: scale;
+    animation-fill-mode: forwards;
+}
+
+li:hover{
+    animation-duration: 0.5s;
+    animation-name: scale;
+    animation-fill-mode: forwards;
+}
+
+.hide{
+    display: none;
+}
+
+.visible{
+    display: visible;
+}

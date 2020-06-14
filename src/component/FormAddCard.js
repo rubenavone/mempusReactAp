@@ -2,7 +2,9 @@ import React from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import ModalBody from "react-bootstrap/ModalBody";
+
 function FormAddCard(props) {
+  
   function handleSubmit(event) {
     event.preventDefault();
     console.log("dans handleSubmit de formAddCard");
@@ -22,11 +24,12 @@ function FormAddCard(props) {
 
   return (
     <Modal show={true} onHide={handleClose}>
+      <form onSubmit={handleSubmit}>
       <Modal.Header closeButton>
         <Modal.Title>Ajouter une Question</Modal.Title>
       </Modal.Header>
       <ModalBody>
-        <form onSubmit={handleSubmit}>
+        
           <label>
             Question :
             <input id="input-question" defaultValue="" type="text" />{" "}
@@ -36,17 +39,16 @@ function FormAddCard(props) {
             Réponse :
             <input id="input-answer" defaultValue="" type="text" />{" "}
           </label>
-          <input type="submit" value="Envoyer" />
-        </form>
+         
+        
       </ModalBody>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>
           Close
         </Button>
-        <Button type="submit" variant="primary" onClick={handleClose}>
-          Envoyer
-        </Button>
+        <input type="submit" value="Envoyer" className="btn btn-success"/>
       </Modal.Footer>
+      </form>
     </Modal>
   );
 }

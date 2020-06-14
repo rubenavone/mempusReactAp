@@ -18,11 +18,12 @@ const Nav = (props) => {
   }
   return (
     <nav>
-      <ul className="list-unstyled d-flex justify-content-center">
+      <ul className="list-unstyled d-flex justify-content-center  ">
+        <li className={"btn mr-4 p-4 shadow bg-success text-light"} >+</li>
         {props.terms.map((term) => (
           <li
             key={term.id}
-            className={`btn ${getBtnClass(term.selected)} mr-4 p-4`}
+            className={`btn ${getBtnClass(term.selected)} mr-4 p-4 shadow`}
             id={term.id}
             // onClick={props.onClickTerm}
             onClick={(event) => {

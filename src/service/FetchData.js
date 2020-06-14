@@ -1,3 +1,5 @@
+import { convertColumnsData, convertSingleCardData } from "./dataConverters";
+
 class FetchData {
   constructor(url, login = "navone_ruben", pwd = "navone_ruben", uid = 90) {
     this.url = url;
@@ -6,12 +8,13 @@ class FetchData {
     this.pwd = pwd;
     this.token = "";
   }
+  
   /**
    * @param  {function} success
    * @param  {function} failed
    */
   getToken = (success, failed) => {
-    fetch(this.url + "rest/session/token") //End point , le poin d'entrée
+    fetch(`${this.url}rest/session/token`) //End point , le poin d'entrée
       //il crée une prommesse qu'on ne voit pas
       //avec un retour
       .then((response) => {
@@ -33,12 +36,13 @@ class FetchData {
         failed(error);
       });
   };
+
   /*
    * @param  {function} success
    * @param  {function} failed
    */
   getTerms = (failed, success) => {
-    fetch(this.url + "memo/themes/" + this.uid, {
+    fetch(`${this.url}memo/themes/${this.uid}`, {
       credentials: "same-origin",
       method: "GET",
       headers: {
@@ -60,12 +64,12 @@ class FetchData {
         failed(error);
       });
   };
+ 
 
   // getCards = (termId, failed, success) => {
-  //   fetch(
-  //     this.url + "memo/list_cartes_term/" + this.uid,
-  //     +"/" + termId + "&_format=json&time=" + Math.floor(Math.random() * 10000),
-
+  //  const queryCards = `${this.url}memo/list_cartes_term/${this.uid}/${termId}&_format=json&time=${Math.floor(Math.random() * 10000)}`;
+   
+  //   fetch(`${queryCards}`,
   //     {
   //       credentials: "same-origin",
   //       method: "GET",
@@ -77,7 +81,7 @@ class FetchData {
   //     }
   //   )
   //     .then((response) => {
-  //       console.log("data reçues dans createReqTerms avant json() :", response);
+  //       console.log("data reçues dans createReqTerms avant json() :", response, "url de la requete :", queryCards);
   //       if (response.status === 200) return response.json();
   //       else throw new Error("Problème de réponse ", response);
   //     })
@@ -89,16 +93,13 @@ class FetchData {
   //       failed(error);
   //     });
   // };
-  getCards = (termId, failed, success) => {
-    fetch(
-      this.url +
-        "memo/list_cartes_term/" +
-        this.uid +
-        "/" +
-        termId +
-        "&_format=json&time=" +
-        Math.floor(Math.random() * 10000),
-      {
+
+
+    getCards = (termId, failed, success) => {
+    const queryCards = `${this.url}memo/list_cartes_term/${this.uid}/${termId}&_format=json&time=${Math.floor(Math.random() * 10000)}`;
+   
+    fetch(`${queryCards}`,
+        {
         credentials: "same-origin",
         method: "GET",
         headers: {
@@ -106,22 +107,22 @@ class FetchData {
           "X-CSRF-Token": this.token,
           Authorization: "Basic " + btoa(this.login + ":" + this.pwd), // btoa = encodage en base 64
         },
-      }
-    )
+      })
       .then((response) => {
         console.log("data reçues dans getCards avant json() :", response);
         if (response.status === 200) return response.json();
         else throw new Error("Problème de réponse ", response);
       })
       .then((data) => {
-        console.log("Data dans getCards : ", data);
-        success(data);
+        console.log('Data dans getCards : ', data);
+        success(convertColumnsData(data)); // on convertie les clefs back-end pour les adapter au front-end
       })
       .catch((error) => {
-        console.log("Erreur attrapée dans getCards", error);
+        console.log('Erreur attrapée dans getCards', error);
         failed(error);
       });
-  };
-}
+    }
+  }
+
 
 export default FetchData;
