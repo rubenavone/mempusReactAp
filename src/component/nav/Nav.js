@@ -13,13 +13,11 @@ const Nav = (props) => {
   // function randomizer() {
   //   return Math.random() * 100 - 1;
   // }
-  function hello() {
-    console.log("hello");
-  }
+
   return (
     <nav>
       <ul className="list-unstyled d-flex justify-content-center  ">
-        <li className={"btn mr-4 p-4 shadow bg-success text-light"} >+</li>
+        <li className={"btn mr-4 p-4 shadow bg-success text-light"}>+</li>
         {props.terms.map((term) => (
           <li
             key={term.id}
