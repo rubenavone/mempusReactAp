@@ -246,11 +246,11 @@ class Table extends Component {
       </div>
     );
   }
-  componentDidMount() {
+  componentDidMount = () => {
     //Premier fetch
     //Récuperation des token
-    this.fetchData.getToken((this.failGetToken, this.successGetToken));
-  }
+    this.fetchData.getToken(this.failGetToken, this.successGetToken);
+  };
 }
 
 export default Table;

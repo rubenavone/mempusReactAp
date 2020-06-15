@@ -21,10 +21,10 @@ class App extends Component {
           <Route path="/error" component={Error} />
           <Route path="/" component={Table} />
         </Switch>
-        <footer className={" bg-secondary p-3 text-center text-light"}>
+        <footer className={" bg-secondary p-3 text-center text-light d-flex  "}>
           <p>
             Copyright Yvan douenel{" "}
-            <a href="/About" className="text-light">
+            <a href="/About" className="text-light ">
               A propos
             </a>
           </p>
